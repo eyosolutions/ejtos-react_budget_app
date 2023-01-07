@@ -2,13 +2,39 @@ import React, { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 
 const Budget = () => {
-    const { budget } = useContext(AppContext);
+	const { budget,dispatch,expenses } = useContext(AppContext);
 
-    return (
-        <div className='alert alert-secondary'>
-            <span>Budget: £{budget}</span>
-        </div>
-    );
+	const changeBudget = (val)=>{
+		const totalExpenses = expenses.reduce((total, item) => {
+			return (total += item.cost);
+		}, 0);
+
+		
+		if(val<totalExpenses) {
+			alert("You cannot reduce the budget that is already allocated and spent!");
+		}else if(val>20000) {
+            alert("You cannot exceed the maximum budget limit of 20,000");
+        }else {
+			dispatch({
+				type: 'SET_BUDGET',
+				payload: val,
+			})
+			}
+	}
+	
+	return (
+		<div className='alert alert-secondary'>
+            <span>Budget: £</span>
+			<input 
+                required = 'required'
+                type="number" 
+                step="10"
+                style={{ width: '50%'}}
+                value={budget} 
+                onInput={(event)=>changeBudget(event.target.value)}>
+            </input>
+		</div>
+	);
 };
 
 export default Budget;
