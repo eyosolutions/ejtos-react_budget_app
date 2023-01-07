@@ -1,28 +1,46 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 
-const Currency = (props) => {
-    const {dispatch } = useContext(AppContext);
-    const [currency, setCurrency] = useState('');
+const Currency = () => {
+    const {dispatch, currency } = useContext(AppContext);
+    let curType = ' Pound';
 
-    const changeCurrency = (event) => {
+    const changeCurrency = (val) => {
+        
+        switch (val) {
+            case '$':
+                curType = ' Dollar';
+                alert('Hello');
+                break;
+            case '£':
+                curType = ' Pound';
+            case '€':
+                curType = ' Euro';
+            case '€':
+                curType = ' Rupee'; 
+            default:
+                curType = 'Pound';
+
+        }
+
         dispatch({
-            currency = setCurrency(event.target.value)
             type: 'CHG_CURRENCY',
-            payload: currency
+            payload: val
         });
     }
     return(
-        <div className='alert alert-success'>
-            <select 
-            className='bg-success'
-            id="currency" 
-            onChange={(event) => changeCurrency(event)}>
-                <option value="Dollar" name="Dollar">$ Dollar</option>
-                <option selected value="Pound" name="Pound">£ Pound</option>
-                <option value="Euro" name="Euro">€ Euro</option>
-                <option value="Ruppee" name="Rupee">₹ Rupee</option>
-            </select>
+        <div>
+            <div class="dropdown">
+            <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown">
+                Currency ({currency} {curType})
+            </button>
+            <ul class="dropdown-menu bg-success">
+                <li><a class="dropdown-item" href='javascript:changeCurrency("$")'>$ Dollar</a></li>
+                <li><a class="dropdown-item" value='£' href="#">£ Pound</a></li>
+                <li><a class="dropdown-item" value='€' href="#">€ Euro</a></li>
+                <li><a class="dropdown-item" value='₹' href="#">₹ Rupee</a></li>
+            </ul>
+            </div>
         </div>
     );
 };
