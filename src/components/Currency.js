@@ -1,27 +1,17 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { AppContext } from '../context/AppContext';
 
 const Currency = () => {
-    const { dispatch } = useContext(AppContext);
+    const { dispatch, currency } = useContext(AppContext);
 
-    let curType = '';
-    function setCurValues() {
-        document.getElementById('dollar').setAttribute('value', '$');
-        document.getElementById('pound').setAttribute('value', '£');
-        document.getElementById('euro').setAttribute('value', '€');
-        document.getElementById('rupee').setAttribute('value', '₹');
-        /*alert(document.getElementById('dollar').getAttribute('value'));*/
-    };
-    setCurValues();
+    const [curType, setCurType] = useState('£ Pound');
     const changeCurrency = (val) => {
-
-
+        
+        setCurType(document.getElementById(val).innerHTML);
         dispatch({
             type: 'CHG_CURRENCY',
             payload: val
-        });
-
-        
+        });        
     };
     return(
         <div class="dropdown">
@@ -29,11 +19,11 @@ const Currency = () => {
                 Currency ({curType})
             </button>
             <ul class="dropdown-menu bg-success" 
-            onClick={(event)=>changeCurrency(event.target.value)}>
-                <li><a id='dollar' class="dropdown-item" href='#'>$ Dollar</a></li>
-                <li><a id='pound' class="dropdown-item" href="#">£ Pound</a></li>
-                <li><a id='euro' class="dropdown-item" href="#">€ Euro</a></li>
-                <li><a id='rupee' class="dropdown-item" href="#">₹ Rupee</a></li>
+            onClick={(event)=>changeCurrency(event.target.id)}>
+                <li><a id='$' class="dropdown-item" href='#'>$ Dollar</a></li>
+                <li><a id='£' class="dropdown-item" href="#">£ Pound</a></li>
+                <li><a id='€' class="dropdown-item" href="#">€ Euro</a></li>
+                <li><a id='₹' class="dropdown-item" href="#">₹ Rupee</a></li>
             </ul>
         </div>
     );
