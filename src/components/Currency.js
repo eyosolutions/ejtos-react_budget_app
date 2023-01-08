@@ -2,45 +2,39 @@ import React, { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 
 const Currency = () => {
-    const {dispatch, currency } = useContext(AppContext);
-    let curType = ' Pound';
+    const { dispatch } = useContext(AppContext);
 
+    let curType = '';
+    function setCurValues() {
+        document.getElementById('dollar').setAttribute('value', '$');
+        document.getElementById('pound').setAttribute('value', '£');
+        document.getElementById('euro').setAttribute('value', '€');
+        document.getElementById('rupee').setAttribute('value', '₹');
+        /*alert(document.getElementById('dollar').getAttribute('value'));*/
+    };
+    setCurValues();
     const changeCurrency = (val) => {
-        
-        switch (val) {
-            case '$':
-                curType = ' Dollar';
-                alert('Hello');
-                break;
-            case '£':
-                curType = ' Pound';
-            case '€':
-                curType = ' Euro';
-            case '€':
-                curType = ' Rupee'; 
-            default:
-                curType = 'Pound';
 
-        }
 
         dispatch({
             type: 'CHG_CURRENCY',
             payload: val
         });
-    }
+
+        
+    };
     return(
-        <div>
-            <div class="dropdown">
+        <div class="dropdown">
             <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown">
-                Currency ({currency} {curType})
+                Currency ({curType})
             </button>
-            <ul class="dropdown-menu bg-success">
-                <li><a class="dropdown-item" href='javascript:changeCurrency("$")'>$ Dollar</a></li>
-                <li><a class="dropdown-item" value='£' href="#">£ Pound</a></li>
-                <li><a class="dropdown-item" value='€' href="#">€ Euro</a></li>
-                <li><a class="dropdown-item" value='₹' href="#">₹ Rupee</a></li>
+            <ul class="dropdown-menu bg-success" 
+            onClick={(event)=>changeCurrency(event.target.value)}>
+                <li><a id='dollar' class="dropdown-item" href='#'>$ Dollar</a></li>
+                <li><a id='pound' class="dropdown-item" href="#">£ Pound</a></li>
+                <li><a id='euro' class="dropdown-item" href="#">€ Euro</a></li>
+                <li><a id='rupee' class="dropdown-item" href="#">₹ Rupee</a></li>
             </ul>
-            </div>
         </div>
     );
 };
