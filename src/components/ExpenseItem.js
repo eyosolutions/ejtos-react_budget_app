@@ -24,6 +24,19 @@ const ExpenseItem = (props) => {
         });
 
     }
+    /* Adding decreasing expense by 10 function */
+    const decreaseAllocation = (name) => {
+        const expense = {
+            name: name,
+            cost: 10,
+        };
+
+        dispatch({
+            type: 'RED_EXPENSE',
+            payload: expense
+        });
+
+    } /* End of function. Also added <td> for decrease below */
 
 
     return (
@@ -31,6 +44,7 @@ const ExpenseItem = (props) => {
         <td>{props.name}</td>
         <td>{currency}{props.cost}</td>
         <td><button onClick={event=> increaseAllocation(props.name)}>+</button></td>
+        <td><button onClick={event=> decreaseAllocation(props.name)}>-</button></td>
         <td><TiDelete size='1.5em' onClick={handleDeleteExpense}></TiDelete></td>
         </tr>
     );
